@@ -1,0 +1,7 @@
+[{
+        "environment_name": "Default",
+        "environment_uuid": "adminProject",
+        "name": "Default",
+        "services": ["test"],
+        "uuid": "e4bd313e-75b5-4864-995b-07d263d70a93"
+    }]

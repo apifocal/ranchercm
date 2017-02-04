@@ -1,0 +1,11 @@
+{
+    "agent_ip": "192.168.0.42",
+    "hostId": 3,
+    "hostname": "rc01",
+    "labels": {
+        "io.rancher.host.docker_version": "1.13",
+        "io.rancher.host.linux_kernel_version": "4.4"
+    },
+    "name": "rc01",
+    "uuid": "feadf169-36c9-497a-9d68-642a8a29b644"
+}

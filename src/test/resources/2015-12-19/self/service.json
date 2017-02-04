@@ -1,0 +1,52 @@
+{
+    "containers": [{
+            "create_index": 1,
+            "external_id": "7bba6c6eaf5369484aca83176f834c4c348b8c40fbd6334c0ef9cfadef98b877",
+            "health_state": null,
+            "host_uuid": "feadf169-36c9-497a-9d68-642a8a29b644",
+            "hostname": null,
+            "ips": ["10.42.39.12"],
+            "labels": {
+                "io.rancher.container.ip": "10.42.39.12/16",
+                "io.rancher.container.name": "Default_test_1",
+                "io.rancher.container.pull_image": "always",
+                "io.rancher.container.start_once": "true",
+                "io.rancher.container.uuid": "c70485a5-8c5f-4ee3-baf7-6e1515689c73",
+                "io.rancher.project.name": "Default",
+                "io.rancher.project_service.name": "Default/test",
+                "io.rancher.service.deployment.unit": "964df115-6acf-42c8-9dd2-ca57c3ca7f95",
+                "io.rancher.service.launch.config": "io.rancher.service.primary.launch.config",
+                "io.rancher.stack.name": "Default",
+                "io.rancher.stack_service.name": "Default/test"
+            },
+            "name": "Default_test_1",
+            "ports": [],
+            "primary_ip": "10.42.39.12",
+            "service_index": "1",
+            "service_name": "test",
+            "stack_name": "Default",
+            "start_count": 1,
+            "state": "running",
+            "uuid": "c70485a5-8c5f-4ee3-baf7-6e1515689c73"
+        }],
+    "create_index": 1,
+    "expose": [],
+    "external_ips": [],
+    "fqdn": null,
+    "hostname": null,
+    "kind": "service",
+    "labels": {
+        "io.rancher.container.pull_image": "always",
+        "io.rancher.container.start_once": "true"
+    },
+    "links": {},
+    "metadata": {},
+    "name": "test",
+    "ports": [],
+    "scale": 1,
+    "sidekicks": [],
+    "stack_name": "Default",
+    "token": null,
+    "uuid": "9d2bb7a7-9285-494d-a821-1d65ac72a9f1",
+    "vip": null
+}

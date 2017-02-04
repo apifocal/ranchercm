@@ -1,0 +1,22 @@
+[{
+        "containers": ["Default_test_1"],
+        "expose": [],
+        "external_ips": [],
+        "fqdn": null,
+        "hostname": null,
+        "kind": "service",
+        "labels": {
+            "io.rancher.container.pull_image": "always",
+            "io.rancher.container.start_once": "true"
+        },
+        "links": {},
+        "metadata": {},
+        "name": "test",
+        "ports": [],
+        "scale": 1,
+        "sidekicks": [],
+        "stack_name": "Default",
+        "token": null,
+        "uuid": "9d2bb7a7-9285-494d-a821-1d65ac72a9f1",
+        "vip": null
+    }]
