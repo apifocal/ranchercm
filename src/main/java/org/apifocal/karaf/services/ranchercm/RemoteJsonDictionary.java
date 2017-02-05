@@ -20,7 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.URI;
+import java.net.URL;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.Map;
@@ -33,84 +33,31 @@ import org.slf4j.LoggerFactory;
  *
  * The config is static, in that updates are not supported, and change detection is also not supported.
  */
-public class RemoteJsonConfigurationImpl implements Configuration {
+public class RemoteJsonDictionary {
 
-    private static final Logger LOG = LoggerFactory.getLogger(RemoteJsonConfigurationImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RemoteJsonDictionary.class);
 
-    private final String pid;
-    protected final URI url;
-    protected final Map<String, Object> properties;
-
-    public RemoteJsonConfigurationImpl(String pid, URI url) throws IOException {
-        this.pid = pid;
-        this.url = url;
-        this.properties = new Hashtable<>();
-        fillProperties();
-    }
-
-    @Override
-    public String getPid() {
-        return pid;
-    }
-
-    @Override
-    public Dictionary<String, Object> getProperties() {
-        return new Hashtable<>(properties);
-    }
-
-    @Override
-    public void update(Dictionary<String, ?> properties) throws IOException {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void delete() throws IOException {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public String getFactoryPid() {
-        return null;
-    }
-
-    @Override
-    public void update() throws IOException {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void setBundleLocation(String location) {
-    }
-
-    @Override
-    public String getBundleLocation() {
-        return null;
-    }
-
-    @Override
-    public long getChangeCount() {
-        return 0;
-    }
-
-    private void fillProperties() throws IOException {
+    public static Dictionary<String, Object> fetchProperties(URL url) throws IOException {
+        Dictionary<String, Object> properties = new Hashtable<>();
         ObjectMapper mapper = new ObjectMapper();
-        HttpURLConnection urlConnection = (HttpURLConnection) url.toURL().openConnection();
+        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         try {
             urlConnection.setRequestProperty("Accept", "application/json");
             JsonNode tree = mapper.readTree(new BufferedInputStream(urlConnection.getInputStream()));
-            loadProperties(tree, "");
+            loadProperties(properties, tree, "");
         } finally {
             urlConnection.disconnect();
         }
+        return properties;
     }
 
-    private void loadProperties(JsonNode node, String parent) {
+    private static void loadProperties(Dictionary<String, Object> properties, JsonNode node, String parent) {
         if (node.isObject()) {
             node.fields().forEachRemaining((Map.Entry<String, JsonNode> entry) -> {
                 StringBuilder newPrefix = new StringBuilder(parent);
                 newPrefix.append(parent.isEmpty() ? "" : ".");
                 newPrefix.append(entry.getKey());
-                loadProperties(entry.getValue(), newPrefix.toString());
+                loadProperties(properties, entry.getValue(), newPrefix.toString());
             });
         } else if (node.isValueNode()) {
             if (!node.isNull()) {

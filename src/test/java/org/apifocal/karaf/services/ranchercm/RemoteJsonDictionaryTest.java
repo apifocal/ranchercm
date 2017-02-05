@@ -15,26 +15,21 @@
  */
 package org.apifocal.karaf.services.ranchercm;
 
-import java.io.IOException;
-import java.net.URI;
+import java.net.URL;
 import java.util.Dictionary;
-import java.util.Hashtable;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-public class RemoteJsonConfigurationImplTest extends RancherMetadataFixture {
+public class RemoteJsonDictionaryTest extends RancherMetadataFixture {
 
-    private static final String TEST_PID = "test.pid";
     private static final String V2_SELF_CONTAINER = "http://localhost:" + PORT + "/2015-12-19/self/container";
     private static final String V2_SELF_HOST = "http://localhost:" + PORT + "/2015-12-19/self/host";
 
     @Test
     public void testTypeMapping() throws Exception {
-        RemoteJsonConfigurationImpl config = new RemoteJsonConfigurationImpl(TEST_PID, URI.create(V2_SELF_CONTAINER));
-        assertEquals(TEST_PID, config.getPid());
 
-        Dictionary<String, Object> p = config.getProperties();
+        Dictionary<String, Object> p = RemoteJsonDictionary.fetchProperties(new URL(V2_SELF_CONTAINER));
 
         // test some nulls
         assertNull(p.get("this_property_should_be_missing"));
@@ -58,10 +53,7 @@ public class RemoteJsonConfigurationImplTest extends RancherMetadataFixture {
 
     @Test
     public void testSelfContainer() throws Exception {
-        RemoteJsonConfigurationImpl config = new RemoteJsonConfigurationImpl(TEST_PID, URI.create(V2_SELF_CONTAINER));
-        assertEquals(TEST_PID, config.getPid());
-
-        Dictionary<String, Object> p = config.getProperties();
+        Dictionary<String, Object> p = RemoteJsonDictionary.fetchProperties(new URL(V2_SELF_CONTAINER));
 
         assertEquals(1, p.get("create_index"));
         assertEquals("7bba6c6eaf5369484aca83176f834c4c348b8c40fbd6334c0ef9cfadef98b877", p.get("external_id"));
@@ -91,10 +83,7 @@ public class RemoteJsonConfigurationImplTest extends RancherMetadataFixture {
 
     @Test
     public void testSelfHost() throws Exception {
-        RemoteJsonConfigurationImpl config = new RemoteJsonConfigurationImpl(TEST_PID, URI.create(V2_SELF_HOST));
-        assertEquals(TEST_PID, config.getPid());
-
-        Dictionary<String, Object> p = config.getProperties();
+        Dictionary<String, Object> p = RemoteJsonDictionary.fetchProperties(new URL(V2_SELF_HOST));
 
         // test that all properties were read properly
         assertEquals("192.168.0.42", p.get("agent_ip"));
@@ -104,24 +93,6 @@ public class RemoteJsonConfigurationImplTest extends RancherMetadataFixture {
         assertEquals("4.4", p.get("labels.io.rancher.host.linux_kernel_version"));
         assertEquals("rc01", p.get("name"));
         assertEquals("feadf169-36c9-497a-9d68-642a8a29b644", p.get("uuid"));
-    }
-
-    @Test(expected = UnsupportedOperationException.class)
-    public void testDelete() throws IOException {
-        RemoteJsonConfigurationImpl config = new RemoteJsonConfigurationImpl(TEST_PID, URI.create(V2_SELF_CONTAINER));
-        config.update();
-    }
-
-    @Test(expected = UnsupportedOperationException.class)
-    public void testUpdate() throws IOException {
-        RemoteJsonConfigurationImpl config = new RemoteJsonConfigurationImpl(TEST_PID, URI.create(V2_SELF_CONTAINER));
-        config.update();
-    }
-
-    @Test(expected = UnsupportedOperationException.class)
-    public void testUpdate2() throws IOException {
-        RemoteJsonConfigurationImpl config = new RemoteJsonConfigurationImpl(TEST_PID, URI.create(V2_SELF_CONTAINER));
-        config.update(new Hashtable<>());
     }
 
 }

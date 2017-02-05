@@ -23,21 +23,23 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ops4j.pax.exam.Configuration;
 import org.ops4j.pax.exam.ConfigurationManager;
-import static org.ops4j.pax.exam.CoreOptions.maven;
-import static org.ops4j.pax.exam.CoreOptions.mavenBundle;
 import static org.ops4j.pax.exam.CoreOptions.systemProperty;
 import org.ops4j.pax.exam.Option;
 import org.ops4j.pax.exam.junit.PaxExam;
 import org.ops4j.pax.exam.karaf.options.KarafDistributionBaseConfigurationOption;
 import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.configureConsole;
-import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.debugConfiguration;
-import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.karafDistributionConfiguration;
 import org.ops4j.pax.exam.options.MavenArtifactUrlReference;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.cm.ConfigurationAdmin;
+import static org.ops4j.pax.exam.CoreOptions.maven;
+import static org.ops4j.pax.exam.CoreOptions.mavenBundle;
+import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.karafDistributionConfiguration;
+import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
+import org.ops4j.pax.exam.spi.reactors.PerSuite;
 
 @RunWith(PaxExam.class)
-public class RemoteConfigAdminImplTest extends RancherMetadataFixture {
+@ExamReactorStrategy(PerSuite.class)
+public class RancherMetadataIT extends RancherMetadataFixture {
 
     @Inject
     private BundleContext bc;
@@ -61,14 +63,16 @@ public class RemoteConfigAdminImplTest extends RancherMetadataFixture {
 
         return new Option[]{
             karafDistro,
-            // keepRuntimeFolder(),
-             debugConfiguration("5007", true),
+            //keepRuntimeFolder(),
+            //debugConfiguration("5005", true),
             configureConsole().ignoreLocalConsole(),
             systemProperty(Constants.RANCHER_METADATA_URL).value("http://localhost:" + PORT),
             mavenBundle("com.fasterxml.jackson.core", "jackson-annotations").versionAsInProject().start(),
             mavenBundle("com.fasterxml.jackson.core", "jackson-core").versionAsInProject().start(),
             mavenBundle("com.fasterxml.jackson.core", "jackson-databind").versionAsInProject().start(),
-            mavenBundle("org.apifocal.karaf.services", "ranchercm").versionAsInProject().start()
+            mavenBundle("org.apifocal.karaf.services", "ranchercm").versionAsInProject().start(),
+            // test-only dependency:
+            mavenBundle("commons-io", "commons-io").versionAsInProject().start()
         };
     }
 
