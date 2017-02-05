@@ -17,7 +17,18 @@ package org.apifocal.karaf.services.ranchercm;
 
 public class Constants {
 
-    static final String DEFAULT_URL = "http://rancher-metadata";
+    /**
+     * OSGi system property defining the rancher metadata service URL.
+     *
+     * It is usually set to {@link #RANCHER_METADATA_URL_DEFAULT}, but one can change it if needed (e.g. for
+     * unit-testing).
+     */
+    static final String RANCHER_METADATA_URL = "rancher.metadata.url";
+
+    /**
+     * Rancher metadata service URL.
+     */
+    static final String RANCHER_METADATA_URL_DEFAULT = "http://rancher-metadata";
 
     static final String API_V1 = "2015-07-25";
     static final String API_V2 = "2015-12-19";
@@ -31,5 +42,6 @@ public class Constants {
         "services",
         "stacks"
     };
+    static final String PID_PREFIX = "org.apifocal.rancher.metadata.";
 
 }

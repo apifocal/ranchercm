@@ -11,7 +11,8 @@ import org.osgi.service.cm.ConfigurationAdmin;
 
 public class Activator implements BundleActivator {
 
-    static final String PID_PREFIX = "org.apifocal.rancher.metadata.";
+    private static String URL_BASE = System.getProperty(Constants.RANCHER_METADATA_URL,
+            Constants.RANCHER_METADATA_URL_DEFAULT);
 
     ServiceRegistration<ConfigurationAdmin> registration;
 
@@ -37,13 +38,13 @@ public class Activator implements BundleActivator {
     }
 
     private String createPid(String path) {
-        StringBuilder b = new StringBuilder(PID_PREFIX);
+        StringBuilder b = new StringBuilder(Constants.PID_PREFIX);
         b.append(path.replaceAll("/", "."));
         return b.toString();
     }
 
     private URI createRancherMetadataUrl(String path) {
-        StringBuilder b = new StringBuilder(Constants.DEFAULT_URL);
+        StringBuilder b = new StringBuilder(URL_BASE);
         b.append("/");
         b.append(Constants.API_V2); // TODO: make this configurable
         b.append("/");

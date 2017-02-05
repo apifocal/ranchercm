@@ -15,61 +15,19 @@
  */
 package org.apifocal.karaf.services.ranchercm;
 
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpServer;
-import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.net.InetSocketAddress;
 import java.net.URI;
-import java.net.URL;
-import java.nio.file.Files;
 import java.util.Dictionary;
 import java.util.Hashtable;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-public class RemoteJsonConfigurationImplTest {
+public class RemoteJsonConfigurationImplTest extends RancherMetadataFixture {
 
-    private static final int PORT = 7999;
     private static final String TEST_PID = "test.pid";
-    private static final String V2_SELF_CONTAINER = "http://localhost:7999/2015-12-19/self/container";
-    private static final String V2_SELF_HOST = "http://localhost:7999/2015-12-19/self/host";
-
-    private static HttpServer server;
-
-    @BeforeClass
-    public static void startWebserver() throws IOException {
-        server = HttpServer.create(new InetSocketAddress(PORT), 0);
-        server.createContext("/", (HttpExchange t) -> {
-            try {
-                String path = t.getRequestURI().getPath(); // this starts with a /, so use class.getResource(), not clasloader.getResource() below
-                String resource = path + ".json";
-                URL url = RemoteJsonConfigurationImplTest.class.getResource(resource);
-                if (url != null) {
-                    File file = new File(url.toURI());
-                    t.sendResponseHeaders(200, file.length());
-                    try (OutputStream os = t.getResponseBody()) {
-                        Files.copy(file.toPath(), os);
-                    }
-                } else {
-                    t.sendResponseHeaders(404, 0);
-                }
-            } catch (Exception ex) {
-                t.sendResponseHeaders(500, 0);
-            }
-        });
-        server.setExecutor(null); // creates a default executor
-        server.start();
-    }
-
-    @AfterClass
-    public static void stopWebServer() {
-        server.stop(1);
-    }
+    private static final String V2_SELF_CONTAINER = "http://localhost:" + PORT + "/2015-12-19/self/container";
+    private static final String V2_SELF_HOST = "http://localhost:" + PORT + "/2015-12-19/self/host";
 
     @Test
     public void testTypeMapping() throws Exception {
