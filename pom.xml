@@ -24,7 +24,7 @@
 
     <groupId>org.apifocal.karaf.services</groupId>
     <artifactId>ranchercm</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.1.0</version>
     <packaging>bundle</packaging>
 
     <name>OSGi Services :: ConfigAdmin :: Rancher Metadata </name>
@@ -33,7 +33,7 @@
     <scm>
         <connection>scm:git:git@github.com:apifocal/ranchercm.git</connection>
         <developerConnection>scm:git:git@github.com:apifocal/ranchercm.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>ranchercm-0.1.0</tag>
         <url>https://github.com/apifocal/ranchercm</url>
     </scm>
 
