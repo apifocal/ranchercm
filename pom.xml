@@ -31,6 +31,13 @@
     <name>OSGi Services :: ConfigAdmin :: Rancher Metadata </name>
     <description>Rancher Metadata service access via ConfigAdmin</description>
 
+    <scm>
+        <connection>scm:git:git@github.com:apifocal/ranchercm.git</connection>
+        <developerConnection>scm:git:git@github.com:apifocal/ranchercm.git</developerConnection>
+        <tag>HEAD</tag>
+        <url>https://github.com/apifocal/ranchercm</url>
+    </scm>
+
     <properties>
         <felix.version>1.8.12</felix.version>
         <jackson.version>2.8.6</jackson.version>
